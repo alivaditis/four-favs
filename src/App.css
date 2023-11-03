@@ -1,38 +1,32 @@
+:root {
+  --text-primary-color: #FFFFFF;
+  --text-secondary-color: #99AABB;
+}
+
+.background {
+  background-color: rgb(20, 24, 28);
+}
+
 .App {
-  text-align: center;
+  height: 100dvh;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.favs-header {
+  color: var(--text-secondary-color);
+  border-bottom: 1px solid var(--text-secondary-color);
+  color: #9ab;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.favs-container {
+  margin-top: 24px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.poster {
+  height: auto;
+  width: 23.5%;
+  display: inline-block;
 }
