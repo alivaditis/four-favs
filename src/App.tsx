@@ -1,5 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import { Autocomplete, TextField, Paper } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import edit from './imgs/edit-document.png'
 import './App.css';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 
 function App() {
   const [favs, setFavs] = useState([
@@ -90,10 +100,24 @@ function App() {
   return (
     <div className='background'>
       <div className='App'>
-        <h2 className='favs-header'>FAVORITE FILMS</h2>
+        <div className='favs-header-container'>
+          <h2 className='favs-header'>FAVORITE FILMS</h2>
+          <img className='edit-icon' src={edit}/>
+        </div>
         <div className="favs-container">
           {imgs}
         </div>
+        <ThemeProvider theme={darkTheme}>
+          <Autocomplete
+            disablePortal
+            id="movies-select"
+            options={['f', 'ee']}
+            sx={{
+              width: 300,
+            }}
+            renderInput={(params) => <TextField {...params} label="Movie" />}
+          />
+        </ThemeProvider>
       </div>
     </div>
   );
