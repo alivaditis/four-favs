@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Autocomplete, TextField, Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import edit from './imgs/edit-document.png'
+import nullPoster from './imgs/null-poster.png'
 import './App.css';
 
 const darkTheme = createTheme({
@@ -10,92 +11,119 @@ const darkTheme = createTheme({
   },
 });
 
+type Movie = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
+
+
 
 function App() {
-  const [favs, setFavs] = useState([
+  const [favs, setFavs] = useState<(Movie | null)[]>([
+null,
     {
       "adult": false,
-      "backdrop_path": "/wDe8LzwuvHYYiuwyNfxdYQq8ti4.jpg",
+      "backdrop_path": "/6N1uy1r66mXHefU3gG9ePZgijCW.jpg",
       "genre_ids": [
-        12,
         28,
-        878
+        80,
+        18
       ],
-      "id": 1893,
+      "id": 949,
       "original_language": "en",
-      "original_title": "Star Wars: Episode I - The Phantom Menace",
-      "overview": "Anakin Skywalker, a young slave strong with the Force, is discovered on Tatooine. Meanwhile, the evil Sith have returned, enacting their plot for revenge against the Jedi.",
-      "popularity": 38.898,
-      "poster_path": "/6wkfovpn7Eq8dYNKaG5PY3q2oq6.jpg",
-      "release_date": "1999-05-19",
-      "title": "Star Wars: Episode I - The Phantom Menace",
+      "original_title": "Heat",
+      "overview": "Obsessive master thief Neil McCauley leads a top-notch crew on various daring heists throughout Los Angeles while determined detective Vincent Hanna pursues him without rest. Each man recognizes and respects the ability and the dedication of the other even though they are aware their cat-and-mouse game may end in violence.",
+      "popularity": 48.584,
+      "poster_path": "/umSVjVdbVwtx5ryCA2QXL44Durm.jpg",
+      "release_date": "1995-12-15",
+      "title": "Heat",
       "video": false,
-      "vote_average": 6.5,
-      "vote_count": 13621
+      "vote_average": 7.908,
+      "vote_count": 6618
     },
     {
-        "adult": false,
-        "backdrop_path": "/4qCqAdHcNKeAHcK8tJ8wNJZa9cx.jpg",
-        "genre_ids": [
-          12,
-          28,
-          878
-        ],
-        "id": 11,
-        "original_language": "en",
-        "original_title": "Star Wars",
-        "overview": "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.",
-        "popularity": 84.707,
-        "poster_path": "/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg",
-        "release_date": "1977-05-25",
-        "title": "Star Wars",
-        "video": false,
-        "vote_average": 8.2,
-        "vote_count": 19263
-      },
-      {
-        "adult": false,
-        "backdrop_path": "/8BTsTfln4jlQrLXUBquXJ0ASQy9.jpg",
-        "genre_ids": [
-          12,
-          28,
-          878
-        ],
-        "id": 140607,
-        "original_language": "en",
-        "original_title": "Star Wars: The Force Awakens",
-        "overview": "Thirty years after defeating the Galactic Empire, Han Solo and his allies face a new threat from the evil Kylo Ren and his army of Stormtroopers.",
-        "popularity": 52.214,
-        "poster_path": "/wqnLdwVXoBjKibFRR5U3y0aDUhs.jpg",
-        "release_date": "2015-12-15",
-        "title": "Star Wars: The Force Awakens",
-        "video": false,
-        "vote_average": 7.3,
-        "vote_count": 18429
-      }, 
-      {
-        "adult": false,
-        "backdrop_path": "/epVMXf10WqFkONzKR8V76Ypj5Y3.jpg",
-        "genre_ids": [
-          12,
-          28,
-          878
-        ],
-        "id": 181808,
-        "original_language": "en",
-        "original_title": "Star Wars: The Last Jedi",
-        "overview": "Rey develops her newly discovered abilities with the guidance of Luke Skywalker, who is unsettled by the strength of her powers. Meanwhile, the Resistance prepares to do battle with the First Order.",
-        "popularity": 60.72,
-        "poster_path": "/kOVEVeg59E0wsnXmF9nrh6OmWII.jpg",
-        "release_date": "2017-12-13",
-        "title": "Star Wars: The Last Jedi",
-        "video": false,
-        "vote_average": 6.8,
-        "vote_count": 14373
-      },
+      "adult": false,
+      "backdrop_path": "/k7j5EQGs9fhW0kf7Ts0eN1FGEls.jpg",
+      "genre_ids": [
+        28,
+        14,
+        10749
+      ],
+      "id": 39915,
+      "original_language": "cn",
+      "original_title": "青蛇",
+      "overview": "A mischievous snake who assumes human form interferes with the romance between her reptilian sister and a hapless man.",
+      "popularity": 21.577,
+      "poster_path": "/qU5lu66AJFopMd5XxELxCkKzRRP.jpg",
+      "release_date": "1993-11-04",
+      "title": "Green Snake",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 83
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tAwgmXKnQ6WVczwcIq5LKFr0LDb.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 25538,
+      "original_language": "zh",
+      "original_title": "一一",
+      "overview": "Each member of a family in Taipei asks hard questions about life's meaning as they live through everyday quandaries. NJ is morose: his brother owes him money, his mother is in a coma, his wife suffers a spiritual crisis when she finds her life a blank and his business partners make bad decisions.",
+      "popularity": 15.907,
+      "poster_path": "/hTPkCpK9SLGDMXRbUwzoep0MxOx.jpg",
+      "release_date": "2000-09-20",
+      "title": "Yi Yi",
+      "video": false,
+      "vote_average": 7.883,
+      "vote_count": 465
+    }
   ])
+  const [options, setOptions] = useState<any[]>([])
+  const [pos, setPos] = useState(0)
 
-  const imgs = favs.map((fav, index) => <img className='poster' key={index} src={`https://image.tmdb.org/t/p/original/${fav.poster_path}`}/>)
+  const handleValueChange = (event:any, newValue:any, pos:number) => {
+    if(newValue) {
+      const newFavs = [...favs]
+      newFavs.splice(pos, 1, newValue)
+      console.log(newFavs)
+      setFavs(newFavs)
+    }
+  }
+
+  const handleQueryChange = (e: any) => {
+    const url = `https://api.themoviedb.org/3/search/movie?query=${e.target.value}&include_adult=false&language=en-US&page=1`;
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
+      }
+    };
+  
+
+  fetch(url, fetchOptions)
+    .then(res => res.json())
+    .then(data => setOptions(data.results))
+    .catch(err => console.error('error:' + err));
+    }
+
+
+  const posters = favs.map((fav, index) => <img className='poster' onClick={()=> setPos(index)} key={index} src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}/>)
+
 
   return (
     <div className='background'>
@@ -105,17 +133,21 @@ function App() {
           <img className='edit-icon' src={edit}/>
         </div>
         <div className="favs-container">
-          {imgs}
+          {posters}
         </div>
         <ThemeProvider theme={darkTheme}>
           <Autocomplete
             disablePortal
             id="movies-select"
-            options={['f', 'ee']}
+            options={options}
+            getOptionLabel={(option) => {
+              return `${option.title} (${option.release_date.slice(0, 4)})`}
+            }
             sx={{
               width: 300,
             }}
-            renderInput={(params) => <TextField {...params} label="Movie" />}
+            renderInput={(params) => <TextField {...params} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
+            onChange={(event, newValue) => handleValueChange(event,newValue, pos)}
           />
         </ThemeProvider>
       </div>
