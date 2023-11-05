@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Autocomplete, TextField, Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import edit from './imgs/edit-document.png'
+import add from './imgs/plus.png'
 import nullPoster from './imgs/null-poster.png'
 import './App.css';
 
@@ -93,6 +94,7 @@ null,
     }
   ])
   const [options, setOptions] = useState<any[]>([])
+  const [isEdit, setIsEdit] = useState(false)
   const [pos, setPos] = useState(0)
 
   const handleValueChange = (event:any, newValue:any, pos:number) => {
@@ -122,7 +124,26 @@ null,
     }
 
 
-  const posters = favs.map((fav, index) => <img className='poster' onClick={()=> setPos(index)} key={index} src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}/>)
+  const posters = favs.map((fav, index) => {
+    return <div className='poster-box'>
+        {isEdit && 
+        <button
+          className='remove-poster-button'
+          onClick={() => {
+          const newFavs = [...favs]
+          newFavs.splice(index, 1, null)
+          setFavs(newFavs)
+          }}
+          >
+          close
+        </button>}
+        {isEdit &&
+        <div className='poster-editing-icon'>
+          <img src={fav ? edit : add} onClick={()=> setPos(index)}/>
+        </div>}
+        <img className='poster' onClick={()=> setPos(index)} key={index} src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}/>
+      </div>
+  })
 
 
   return (
@@ -130,7 +151,7 @@ null,
       <div className='App'>
         <div className='favs-header-container'>
           <h2 className='favs-header'>FAVORITE FILMS</h2>
-          <img className='edit-icon' src={edit}/>
+          {!isEdit && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
         </div>
         <div className="favs-container">
           {posters}

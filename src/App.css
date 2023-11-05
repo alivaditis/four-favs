@@ -1,3 +1,7 @@
+* {
+  border: 2px solid red;
+}
+
 :root {
   --text-primary-color: #FFFFFF;
   --text-secondary-color: #99AABB;
@@ -36,8 +40,24 @@
   justify-content: space-between;
 }
 
+.poster-box {
+  width: 23.5%;
+  position: relative;
+}
+
+.remove-poster-button {
+  position: absolute;
+}
+
+.poster-editing-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  z-index: 0;
+}
+
 .poster {
   height: auto;
-  width: 23.5%;
-  display: inline-block;
 }
