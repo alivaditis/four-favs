@@ -1,14 +1,11 @@
-* {
-  border: 2px solid red;
-}
-
 :root {
   --text-primary-color: #FFFFFF;
   --text-secondary-color: #99AABB;
+  --background-color: rgb(20, 24, 28)
 }
 
 .background {
-  background-color: rgb(20, 24, 28);
+  background-color: var(--background-color);
 }
 
 .App {
@@ -43,10 +40,33 @@
 .poster-box {
   width: 23.5%;
   position: relative;
+  border-radius: 16px;
+  border: 3px solid var(--background-color);
+}
+
+
+.hovered-edit-poster:hover {
+  cursor: pointer;
+  border: 3px solid white;
+}
+
+.set-poster-hover:hover {
+  cursor: pointer;
 }
 
 .remove-poster-button {
   position: absolute;
+  left: 112%;
+  top: -5%;
+  transform: translate(-112%, 5%);
+  width: 30%;
+  background: none;
+  border: none;
+  z-index: 1;
+}
+
+.remove-poster-button:hover {
+  cursor: pointer;
 }
 
 .poster-editing-icon {
@@ -55,7 +75,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 30%;
-  z-index: 0;
+}
+
+.poster-overflow {
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .poster {
