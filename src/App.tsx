@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, Button } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {Modal} from '@mui/joy';
 import close from './imgs/close.png'
 import edit from './imgs/pen.png'
 import add from './imgs/plus.png'
@@ -35,20 +36,22 @@ type Movie = {
 function App() {
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
   const [editFavs, setEditFavs] = useState([...favs])
-  const [options, setOptions] = useState<any[]>([])
+  const [options, setOptions] = useState<Movie[]>([])
   const [isEdit, setIsEdit] = useState(false)
+  const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
 
-  const handleValueChange = (event:any, newValue:Movie, pos:number) => {
+  const handleValueChange = (event: React.SyntheticEvent<Element, Event>, newValue:Movie, pos:number) => {
     if(newValue) {
       const newFavs = [...editFavs]
       newFavs.splice(pos, 1, newValue)
       console.log(newFavs)
       setEditFavs(newFavs)
+      setOpen(false)
     }
   }
 
-  const handleQueryChange = (e: any) => {
+  const handleQueryChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const url = `https://api.themoviedb.org/3/search/movie?query=${e.target.value}&include_adult=false&language=en-US&page=1`;
     const fetchOptions = {
       method: 'GET',
@@ -63,7 +66,7 @@ function App() {
     .then(res => res.json())
     .then(data => setOptions(data.results))
     .catch(err => console.error('error:' + err));
-    }
+}
 
 
   const posters = (!isEdit ? favs : editFavs).map((fav, index) => {
@@ -81,12 +84,27 @@ function App() {
         </button>}
         {isEdit &&
         <div className='poster-editing-icon'>
-          <img src={fav ? edit : add} onClick={()=> setPos(index)}/>
+          <img
+            src={fav ? edit : add}
+            onClick={()=> {
+            setPos(index)
+            if(isEdit) {
+              setOpen(true)
+              }
+            }}
+          />
         </div>}
         <div className='poster-overflow'>
           <img
             className='poster'
-            onClick={()=> setPos(index)} key={index} src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}
+            onClick={()=> {
+              setPos(index)
+              if(isEdit) {
+                setOpen(true)
+              }
+            }}
+            key={index} 
+            src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}
           />
         </div>
       </div>
@@ -104,9 +122,9 @@ function App() {
           {posters}
         </div>
         {isEdit && 
-        <>
-          <button onClick={()=>setIsEdit(false)}>Cancel</button>
-          <button 
+        <div className='save-button-container'>
+          <Button onClick={()=>setIsEdit(false)}>Cancel</Button>
+          <Button 
             onClick={()=> {
               const newFavs = [...editFavs]
               newFavs.sort((a, b) => {
@@ -123,24 +141,30 @@ function App() {
               setIsEdit(false)
             }}>
             Save
-          </button>
-        </>
+          </Button>
+        </div>
         }
-        <ThemeProvider theme={darkTheme}>
-          <Autocomplete
-            disablePortal
-            id="movies-select"
-            options={options}
-            getOptionLabel={(option) => {
-              return `${option.title} (${option.release_date.slice(0, 4)})`}
-            }
-            sx={{
-              width: 300,
-            }}
-            renderInput={(params) => <TextField {...params} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
-            onChange={(event, newValue) => handleValueChange(event,newValue, pos)}
-          />
-        </ThemeProvider>
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          sx={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <ThemeProvider theme={darkTheme}>
+            <Autocomplete
+              disablePortal
+              id="movies-select"
+              options={options}
+              getOptionLabel={(option) => {
+                return `${option?.title} (${option?.release_date.slice(0, 4)})`
+              }}
+              sx={{
+                width: 300,
+              }}
+              renderInput={(params) => <TextField {...params} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
+              onChange={(event, newValue) => handleValueChange(event,newValue, pos)}
+            />
+          </ThemeProvider>
+        </Modal>
       </div>
     </div>
   );

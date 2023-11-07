@@ -31,6 +31,10 @@
   width: 24px;
 }
 
+.edit-icon:hover {
+  cursor: pointer;
+}
+
 .favs-container {
   margin-top: 24px;
   display: flex;
@@ -84,4 +88,8 @@
 
 .poster {
   height: auto;
+}
+
+.save-button-container {
+  margin-top: 1em;
 }
