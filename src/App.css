@@ -1,10 +1,11 @@
 :root {
   --text-primary-color: #FFFFFF;
   --text-secondary-color: #99AABB;
+  --background-color: rgb(20, 24, 28)
 }
 
 .background {
-  background-color: rgb(20, 24, 28);
+  background-color: var(--background-color);
 }
 
 .App {
@@ -13,10 +14,25 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.favs-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--text-secondary-color);
+}
+
 .favs-header {
   color: var(--text-secondary-color);
-  border-bottom: 1px solid var(--text-secondary-color);
   color: #9ab;
+}
+
+.edit-icon {
+  height: auto;
+  width: 24px;
+}
+
+.edit-icon:hover {
+  cursor: pointer;
 }
 
 .favs-container {
@@ -25,8 +41,55 @@
   justify-content: space-between;
 }
 
+.poster-box {
+  width: 23.5%;
+  position: relative;
+  border-radius: 16px;
+  border: 3px solid var(--background-color);
+}
+
+
+.hovered-edit-poster:hover {
+  cursor: pointer;
+  border: 3px solid white;
+}
+
+.set-poster-hover:hover {
+  cursor: pointer;
+}
+
+.remove-poster-button {
+  position: absolute;
+  left: 112%;
+  top: -5%;
+  transform: translate(-112%, 5%);
+  width: 30%;
+  background: none;
+  border: none;
+  z-index: 1;
+}
+
+.remove-poster-button:hover {
+  cursor: pointer;
+}
+
+.poster-editing-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+}
+
+.poster-overflow {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
 .poster {
   height: auto;
-  width: 23.5%;
-  display: inline-block;
+}
+
+.save-button-container {
+  margin-top: 1em;
 }
