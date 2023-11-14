@@ -17,7 +17,7 @@ const darkTheme = createTheme({
 
 const Favs = () => {
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
-  const [editFavs, setEditFavs] = useState(favs)
+  const [editFavs, setEditFavs] = useState([...favs])
   const [options, setOptions] = useState<Movie[]>([])
   const [isEdit, setIsEdit] = useState(false)
   const [open, setOpen] = useState(false);
@@ -86,12 +86,14 @@ const Favs = () => {
   useEffect(() => {    
     getFavs('demo1')
       .then((data) => Promise.all(data.map((id:number) => getMovieById(id))))
-      .then(data => setFavs(data))
+      .then(data => {
+        while (data.length < 4) {
+          data.push(null)
+        }
+        setFavs(data)
+        setEditFavs(data)
+      })
   }, [])
-
-  useEffect(() => {
-    setEditFavs(favs)
-  }, favs)
 
   const posters = (!isEdit ? favs : editFavs).map((fav, index) => {
     return <div key={index} className={`poster-box ${fav && 'set-poster-hover'} ${isEdit && 'hovered-edit-poster'}`}>
