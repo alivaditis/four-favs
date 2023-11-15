@@ -60,10 +60,10 @@
 
 .remove-poster-button {
   position: absolute;
-  left: 112%;
+  left: 102%;
   top: -5%;
-  transform: translate(-112%, 5%);
-  width: 30%;
+  transform: translate(-102%, 5%);
+  width: 20%;
   background: none;
   border: none;
   z-index: 1;

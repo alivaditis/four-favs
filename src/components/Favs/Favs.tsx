@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -28,7 +28,6 @@ const Favs = () => {
   const [pos, setPos] = useState(0)
   
   const {username} = useParams()
-  const navigate = useNavigate()
 
   const getFavs = (username:string|undefined) => {
     return fetch(`http://localhost:3001/api/v0/user/${username}`)
@@ -114,16 +113,15 @@ const Favs = () => {
   const posters = (!isEdit ? favs : editFavs).map((fav, index) => {
     return <div key={index} className={`poster-box ${fav && 'set-poster-hover'} ${isEdit && 'hovered-edit-poster'}`}>
         {isEdit && fav &&
-        <button
+        <img
           className='remove-poster-button'
+          src={close}
           onClick={() => {
-          const newFavs = [...editFavs]
-          newFavs.splice(index, 1, null)
-          setEditFavs(newFavs)
+            const newFavs = [...editFavs]
+            newFavs.splice(index, 1, null)
+            setEditFavs(newFavs)
           }}
-        >
-          <img src={close}/>
-        </button>}
+        />}
         {isEdit &&
         <div className='poster-editing-icon'>
           <img
