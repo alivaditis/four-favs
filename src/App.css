@@ -44,7 +44,7 @@
 .poster-box {
   width: 23.5%;
   position: relative;
-  border-radius: 16px;
+  border-radius: 8px;
   border: 3px solid var(--background-color);
 }
 
@@ -82,7 +82,7 @@
 }
 
 .poster-overflow {
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
