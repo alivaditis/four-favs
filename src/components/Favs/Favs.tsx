@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -28,6 +28,7 @@ const Favs = () => {
   const [pos, setPos] = useState(0)
   
   const {username} = useParams()
+  const navigate = useNavigate()
 
   const getFavs = (username:string|undefined) => {
     return fetch(`http://localhost:3001/api/v0/user/${username}`)
@@ -43,8 +44,15 @@ const Favs = () => {
   
   const openModal = (index: number) => {
     setPos(index)
-    if(isEdit) {
-      setOpen(true)
+    setOpen(true)
+  }
+
+  const handlePosterClick = (fav: Movie, index: number) => {
+    if (isEdit) {
+      openModal(index)
+      return
+    } else if (fav) {
+      window.location.href = `https://www.themoviedb.org/movie/${fav.id}`
     }
   }
   
@@ -121,12 +129,12 @@ const Favs = () => {
           <img
             src={fav ? edit : add}
             onClick={() => openModal(index)}
-          />
+            />
         </div>}
         <div className='poster-overflow'>
           <img
+            onClick={() => handlePosterClick(fav, index)}
             className='poster'
-            onClick={() => openModal(index)}
             src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}
           />
         </div>
