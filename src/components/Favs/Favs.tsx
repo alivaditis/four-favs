@@ -26,8 +26,33 @@ const Favs = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
+  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [isValidated, setIsValidated] = useState(false)
   
+  function parseJwt(token:string|null) {
+    if (!token) {
+      return
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
+
+  const user = parseJwt(token)?.username
+
   const {username} = useParams()
+
+  const validateUser = (tokenName: string, urlUserName:string|undefined) => {
+    if (tokenName === urlUserName) {
+      setIsValidated(true)
+    } else {
+      setIsValidated(false)
+    }
+  }
+
+  useEffect(() => {
+    validateUser(user, username)
+  }, [token])
 
   const getFavs = (username:string|undefined) => {
     return fetch(`http://localhost:3001/api/v0/user/${username}`)
@@ -98,6 +123,21 @@ const Favs = () => {
         .catch(err => console.error('error:' + err))
   }
   
+  const updateFavs = (username: string | undefined, favs: Movie[]) => {
+  
+    const filteredIds = favs.filter(movie => movie !== null).map(movie => movie?.id)
+    
+     return fetch(`http://localhost:3001/api/v0/user/${username}/favs`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fourFavs: filteredIds,
+      })
+    })
+  }
+
   useEffect(() => {    
     getFavs(username)
       .then((data) => Promise.all(data.map((id:number) => getMovieById(id))))
@@ -143,14 +183,21 @@ const Favs = () => {
   return (
     <div className='background'>
       <div className='App'>
+        <button
+          onClick={() => {
+            localStorage.clear()
+            setToken(null)
+          }}>
+          log out
+        </button>
         <div className='favs-header-container'>
           <h2 className='favs-header'>FAVORITE FILMS</h2>
-          {!isEdit && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
+          {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
         </div>
         <div className="favs-container">
           {posters}
         </div>
-        {isEdit && 
+        {isEdit && isValidated &&
         <div className='save-button-container'>
           <Button onClick={()=>setIsEdit(false)}>Cancel</Button>
           <Button 
@@ -165,6 +212,7 @@ const Favs = () => {
                 }
                 return 0
               })
+              updateFavs(username, newFavs)
               setFavs([...newFavs])
               setEditFavs([...newFavs])
               setIsEdit(false)
@@ -181,6 +229,7 @@ const Favs = () => {
           <ThemeProvider theme={darkTheme}>
             <Autocomplete
               disablePortal
+              openText={'nooo'}
               id="movies-select"
               options={options}
               getOptionLabel={(option) => {
@@ -189,7 +238,7 @@ const Favs = () => {
               sx={{
                 width: 300,
               }}
-              renderInput={(params) => <TextField {...params} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
+              renderInput={(params) => <TextField {...params} autoFocus={true} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
               onChange={(event, newValue) => handleValueChange(event,newValue, pos)}
             />
           </ThemeProvider>
