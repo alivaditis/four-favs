@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -26,8 +26,10 @@ const Favs = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
-  const [token, setToken] = useState(localStorage.getItem('token'))
-  const [isValidated, setIsValidated] = useState(false)
+  
+  const navigate = useNavigate()
+
+  const token = localStorage.getItem('token')
   
   function parseJwt(token:string|null) {
     if (!token) {
@@ -42,17 +44,15 @@ const Favs = () => {
 
   const {username} = useParams()
 
-  const validateUser = (tokenName: string, urlUserName:string|undefined) => {
+  const validate = (tokenName: string, urlUserName:string|undefined) => {
     if (tokenName === urlUserName) {
-      setIsValidated(true)
+      return true
     } else {
-      setIsValidated(false)
+      return false
     }
   }
 
-  useEffect(() => {
-    validateUser(user, username)
-  }, [token])
+  const isValidated = validate(user, username)
 
   const getFavs = (username:string|undefined) => {
     return fetch(`http://localhost:3001/api/v0/user/${username}`)
@@ -183,13 +183,13 @@ const Favs = () => {
   return (
     <div className='background'>
       <div className='App'>
-        <button
+        {isValidated && <button
           onClick={() => {
             localStorage.clear()
-            setToken(null)
+            navigate('/sign-in')
           }}>
           log out
-        </button>
+        </button>}
         <div className='favs-header-container'>
           <h2 className='favs-header'>FAVORITE FILMS</h2>
           {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
