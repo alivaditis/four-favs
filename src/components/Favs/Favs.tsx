@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -27,10 +27,35 @@ const Favs = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
   
+  const navigate = useNavigate()
+
+  const token = localStorage.getItem('token')
+  
+  function parseJwt(token:string|null) {
+    if (!token) {
+      return
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
+
+  const user = parseJwt(token)?.username
+
   const {username} = useParams()
 
+  const validate = (tokenName: string, urlUserName:string|undefined) => {
+    if (tokenName === urlUserName) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  const isValidated = validate(user, username)
+
   const getFavs = (username:string|undefined) => {
-    return fetch(`http://localhost:3001/api/v0/user/${username}`)
+    return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)
       .then(res => {
         if (res.ok) {
           return res.json()
@@ -98,6 +123,22 @@ const Favs = () => {
         .catch(err => console.error('error:' + err))
   }
   
+  const updateFavs = (username: string | undefined, favs: Movie[]) => {
+  
+    const filteredIds = favs.filter(movie => movie !== null).map(movie => movie?.id)
+    
+     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}/favs`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        fourFavs: filteredIds,
+      })
+    })
+  }
+
   useEffect(() => {    
     getFavs(username)
       .then((data) => Promise.all(data.map((id:number) => getMovieById(id))))
@@ -143,14 +184,21 @@ const Favs = () => {
   return (
     <div className='background'>
       <div className='App'>
+        {isValidated && <button
+          onClick={() => {
+            localStorage.clear()
+            navigate('/sign-in')
+          }}>
+          log out
+        </button>}
         <div className='favs-header-container'>
           <h2 className='favs-header'>FAVORITE FILMS</h2>
-          {!isEdit && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
+          {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
         </div>
         <div className="favs-container">
           {posters}
         </div>
-        {isEdit && 
+        {isEdit && isValidated &&
         <div className='save-button-container'>
           <Button onClick={()=>setIsEdit(false)}>Cancel</Button>
           <Button 
@@ -165,6 +213,7 @@ const Favs = () => {
                 }
                 return 0
               })
+              updateFavs(username, newFavs)
               setFavs([...newFavs])
               setEditFavs([...newFavs])
               setIsEdit(false)
@@ -181,6 +230,7 @@ const Favs = () => {
           <ThemeProvider theme={darkTheme}>
             <Autocomplete
               disablePortal
+              openText={'nooo'}
               id="movies-select"
               options={options}
               getOptionLabel={(option) => {
@@ -189,7 +239,7 @@ const Favs = () => {
               sx={{
                 width: 300,
               }}
-              renderInput={(params) => <TextField {...params} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
+              renderInput={(params) => <TextField {...params} autoFocus={true} onChange={(e)=>handleQueryChange(e)} label="Movie" />}
               onChange={(event, newValue) => handleValueChange(event,newValue, pos)}
             />
           </ThemeProvider>
