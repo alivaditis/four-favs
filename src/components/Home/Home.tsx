@@ -5,9 +5,9 @@ const Home = () => {
   const navigate = useNavigate()
   
   useEffect(() => {
-    navigate('/demo1')
+    navigate('/sign-in')
   }, [])
-  
+
   return <></>
 }
 

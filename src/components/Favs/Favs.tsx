@@ -55,7 +55,7 @@ const Favs = () => {
   const isValidated = validate(user, username)
 
   const getFavs = (username:string|undefined) => {
-    return fetch(`http://localhost:3001/api/v0/user/${username}`)
+    return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)
       .then(res => {
         if (res.ok) {
           return res.json()
@@ -127,10 +127,11 @@ const Favs = () => {
   
     const filteredIds = favs.filter(movie => movie !== null).map(movie => movie?.id)
     
-     return fetch(`http://localhost:3001/api/v0/user/${username}/favs`, {
+     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}/favs`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         fourFavs: filteredIds,

@@ -42,7 +42,7 @@ export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    fetch('http://localhost:3001/api/v0/signin', {
+    fetch('https://four-favs-be.onrender.com/api/v0/signin', {
       'method': 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,9 +65,8 @@ export default function SignInSide() {
         setError(false)
         navigate(`/${data.get('username')}`)
         })
-      .catch(e => setError(true))
-    
-  };
+      .catch(e => setError(true)) 
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>
