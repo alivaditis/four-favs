@@ -4,7 +4,7 @@ import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Modal } from '@mui/joy';
-import { parseJwt, validate } from '../../helpers'
+import { validate } from '../../helpers'
 import close from '../../imgs/close.png'
 import edit from '../../imgs/pen.png'
 import add from '../../imgs/plus.png'
@@ -17,7 +17,11 @@ const darkTheme = createTheme({
   },
 });
 
-const Favs = () => {
+type propTypes = {
+  user: string | undefined
+}
+
+const Favs = ({user}:propTypes) => {
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
   const [editFavs, setEditFavs] = useState([...favs])
   const [options, setOptions] = useState<Movie[]>([])
@@ -29,7 +33,7 @@ const Favs = () => {
 
   const {username} = useParams()
 
-  const isValidated = validate(parseJwt(parseJwt(localStorage.token).username), username)
+  const isValidated = validate(user, username)
 
   const getFavs = (username:string|undefined) => {
     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)
