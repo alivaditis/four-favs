@@ -61,7 +61,6 @@ export default function SignInSide() {
         }})
       .then(res => {
         localStorage.setItem("token", res.token);
-        console.log(localStorage)
         setError(false)
         navigate(`/${data.get('username')}`)
         })

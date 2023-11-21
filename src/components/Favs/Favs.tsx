@@ -4,20 +4,18 @@ import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Modal } from '@mui/joy';
+import { parseJwt, validate } from '../../helpers'
 import close from '../../imgs/close.png'
 import edit from '../../imgs/pen.png'
 import add from '../../imgs/plus.png'
 import nullPoster from '../../imgs/null-poster.png'
 import '../../App.css'
 
-
-
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
-
 
 const Favs = () => {
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
@@ -29,30 +27,9 @@ const Favs = () => {
   
   const navigate = useNavigate()
 
-  const token = localStorage.getItem('token')
-  
-  function parseJwt(token:string|null) {
-    if (!token) {
-      return
-    }
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
-    return JSON.parse(window.atob(base64));
-  }
-
-  const user = parseJwt(token)?.username
-
   const {username} = useParams()
 
-  const validate = (tokenName: string, urlUserName:string|undefined) => {
-    if (tokenName === urlUserName) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  const isValidated = validate(user, username)
+  const isValidated = validate(parseJwt(parseJwt(localStorage.token).username), username)
 
   const getFavs = (username:string|undefined) => {
     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)
@@ -84,7 +61,6 @@ const Favs = () => {
     if(newValue) {
       const newFavs = [...editFavs]
       newFavs.splice(pos, 1, newValue)
-      console.log(newFavs)
       setEditFavs(newFavs)
       setOpen(false)
     }
@@ -131,7 +107,7 @@ const Favs = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({
         fourFavs: filteredIds,
