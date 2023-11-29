@@ -18,7 +18,11 @@ const darkTheme = createTheme({
 });
 
 type propTypes = {
-  user: string | undefined
+  user: {
+    iat: number
+    id: string
+    username: string
+  } | undefined
 }
 
 const Favs = ({user}:propTypes) => {
@@ -33,7 +37,7 @@ const Favs = ({user}:propTypes) => {
 
   const {username} = useParams()
 
-  const isValidated = validate(user, username)
+  const isValidated = validate(user?.username, username)
 
   const getFavs = (username:string|undefined) => {
     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)

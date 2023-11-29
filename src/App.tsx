@@ -7,7 +7,7 @@ import { parseJwt } from './helpers'
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(parseJwt(localStorage.token).username)
+  const [user, setUser] = useState(parseJwt(localStorage.token))
 
   useEffect(() => {
     setUser(parseJwt(localStorage.token))
