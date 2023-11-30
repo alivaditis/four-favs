@@ -4,13 +4,13 @@ import { Movie } from '../../types'
 import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Modal } from '@mui/joy';
+import { validate } from '../../helpers'
+import { getMovieById, getUser, getOptions, putFavs } from '../../api'
 import close from '../../imgs/close.png'
 import edit from '../../imgs/pen.png'
 import add from '../../imgs/plus.png'
 import nullPoster from '../../imgs/null-poster.png'
 import '../../App.css'
-
-
 
 const darkTheme = createTheme({
   palette: {
@@ -18,8 +18,15 @@ const darkTheme = createTheme({
   },
 });
 
+type propTypes = {
+  user: {
+    iat: number
+    id: string
+    username: string
+  } | undefined
+}
 
-const Favs = () => {
+const Favs = ({user}:propTypes) => {
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
   const [editFavs, setEditFavs] = useState([...favs])
   const [options, setOptions] = useState<Movie[]>([])
@@ -29,42 +36,9 @@ const Favs = () => {
   
   const navigate = useNavigate()
 
-  const token = localStorage.getItem('token')
-  
-  function parseJwt(token:string|null) {
-    if (!token) {
-      return
-    }
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
-    return JSON.parse(window.atob(base64));
-  }
-
-  const user = parseJwt(token)?.username
-
   const {username} = useParams()
 
-  const validate = (tokenName: string, urlUserName:string|undefined) => {
-    if (tokenName === urlUserName) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  const isValidated = validate(user, username)
-
-  const getFavs = (username:string|undefined) => {
-    return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-      })
-      .then(data => {
-        return data.user.fourFavs
-      })
-  }
+  const isValidated = validate(user?.username, username)
   
   const openModal = (index: number) => {
     setPos(index)
@@ -84,64 +58,25 @@ const Favs = () => {
     if(newValue) {
       const newFavs = [...editFavs]
       newFavs.splice(pos, 1, newValue)
-      console.log(newFavs)
       setEditFavs(newFavs)
       setOpen(false)
     }
   }
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${e.target.value}&include_adult=false&language=en-US&page=1`;
-    
-    const fetchOptions = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
-      }
-    }
-
-    fetch(url, fetchOptions)
-      .then(res => res.json())
+    getOptions(e.target.value)
       .then(data => setOptions(data.results))
-      .catch(err => console.error('error:' + err))
-  }
-
-  const getMovieById = (id: number) => {
-    const url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
-    const fetchOtions = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
-      }
-    }
-
-    return fetch(url, fetchOtions)
-        .then(res => res.json())
-        .then(data => data)
-        .catch(err => console.error('error:' + err))
+      .catch(e => console.error('error:' + e))
   }
   
   const updateFavs = (username: string | undefined, favs: Movie[]) => {
-  
     const filteredIds = favs.filter(movie => movie !== null).map(movie => movie?.id)
-    
-     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}/favs`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        fourFavs: filteredIds,
-      })
-    })
+    putFavs(username, filteredIds)
   }
 
   useEffect(() => {    
-    getFavs(username)
-      .then((data) => Promise.all(data.map((id:number) => getMovieById(id))))
+    getUser(username)
+      .then((data) => Promise.all(data.fourFavs.map((id:number) => getMovieById(id))))
       .then(data => {
         while (data.length < 4) {
           data.push(null)
@@ -200,7 +135,15 @@ const Favs = () => {
         </div>
         {isEdit && isValidated &&
         <div className='save-button-container'>
-          <Button onClick={()=>setIsEdit(false)}>Cancel</Button>
+          <Button 
+            onClick={
+              ()=> {
+                setEditFavs([...favs])
+                setIsEdit(false)
+              }
+              }>
+            Cancel
+          </Button>
           <Button 
             onClick={()=> {
               const newFavs = [...editFavs]
@@ -234,7 +177,11 @@ const Favs = () => {
               id="movies-select"
               options={options}
               getOptionLabel={(option) => {
-                return `${option?.title} (${option?.release_date.slice(0, 4)})`
+                let releaseDate = ''
+                if (option?.release_date) {
+                  releaseDate = `(${option?.release_date.slice(0, 4)})`
+                }
+                return `${option?.title} ${releaseDate}`
               }}
               sx={{
                 width: 300,
