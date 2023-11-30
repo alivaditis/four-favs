@@ -4,11 +4,17 @@ import {useNavigate} from 'react-router-dom'
 const Home = () => {
   const navigate = useNavigate()
   
-  useEffect(() => {
-    navigate('/sign-in')
-  }, [])
+  // useEffect(() => {
+  //   navigate('/sign-in')
+  // }, [])
 
-  return <></>
+  return (
+    <div className='background'>
+      <div className='app'>
+        yo
+      </div>
+    </div>
+  )
 }
 
 export default Home

@@ -20,6 +20,7 @@ background
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  color: var(--text-primary-color);
 }
 /*
   5. Improve media defaults

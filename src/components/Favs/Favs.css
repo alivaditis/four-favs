@@ -1,0 +1,113 @@
+
+.gradient-container {
+  position:relative
+}
+
+.gradient {
+  height: 100%;
+  width: 100%;
+  background-image: 
+    linear-gradient(180deg,rgba(20,24,28,0) 0,rgba(20,24,28,0) 50%,rgba(20,24,28,.75) 80%,#14181c);
+  position: absolute;
+}
+
+.content-container {
+  position: relative;
+  top: -60px;
+  padding: 0 16px;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.username {
+  margin-left: .75rem;
+  color: var(--text-primary-color);
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.favs-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--text-secondary-color);
+}
+
+.favs-header {
+  color: var(--text-secondary-color);
+  color: #9ab;
+  font-size: 20px;
+}
+
+.edit-icon {
+  height: auto;
+  width: 24px;
+}
+
+.edit-icon:hover {
+  cursor: pointer;
+}
+
+.favs-container {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.poster-box {
+  width: 23.5%;
+  position: relative;
+  border-radius: 8px;
+  border: 3px solid var(--background-color);
+}
+
+
+.hovered-edit-poster:hover {
+  cursor: pointer;
+  border: 3px solid white;
+}
+
+.set-poster-hover:hover {
+  cursor: pointer;
+}
+
+.remove-poster-button {
+  position: absolute;
+  left: 102%;
+  top: -5%;
+  transform: translate(-102%, 5%);
+  width: 20%;
+  background: none;
+  border: none;
+  z-index: 1;
+}
+
+.remove-poster-button:hover {
+  cursor: pointer;
+}
+
+.poster-editing-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+}
+
+.poster-overflow {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.poster {
+  height: auto;
+}
+
+.save-button-container {
+  margin-top: 1em;
+}
