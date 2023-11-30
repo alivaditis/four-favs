@@ -5,6 +5,7 @@ import { Autocomplete, TextField, Button } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Modal } from '@mui/joy';
 import { validate } from '../../helpers'
+import { getMovieById, getUser, getOptions, putFavs } from '../../api'
 import close from '../../imgs/close.png'
 import edit from '../../imgs/pen.png'
 import add from '../../imgs/plus.png'
@@ -38,18 +39,6 @@ const Favs = ({user}:propTypes) => {
   const {username} = useParams()
 
   const isValidated = validate(user?.username, username)
-
-  const getFavs = (username:string|undefined) => {
-    return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}`)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-      })
-      .then(data => {
-        return data.user.fourFavs
-      })
-  }
   
   const openModal = (index: number) => {
     setPos(index)
@@ -75,57 +64,19 @@ const Favs = ({user}:propTypes) => {
   }
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${e.target.value}&include_adult=false&language=en-US&page=1`;
-    
-    const fetchOptions = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
-      }
-    }
-
-    fetch(url, fetchOptions)
-      .then(res => res.json())
+    getOptions(e.target.value)
       .then(data => setOptions(data.results))
-      .catch(err => console.error('error:' + err))
-  }
-
-  const getMovieById = (id: number) => {
-    const url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
-    const fetchOtions = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`
-      }
-    }
-
-    return fetch(url, fetchOtions)
-        .then(res => res.json())
-        .then(data => data)
-        .catch(err => console.error('error:' + err))
+      .catch(e => console.error('error:' + e))
   }
   
   const updateFavs = (username: string | undefined, favs: Movie[]) => {
-  
     const filteredIds = favs.filter(movie => movie !== null).map(movie => movie?.id)
-    
-     return fetch(`https://four-favs-be.onrender.com/api/v0/user/${username}/favs`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify({
-        fourFavs: filteredIds,
-      })
-    })
+    putFavs(username, filteredIds)
   }
 
   useEffect(() => {    
-    getFavs(username)
-      .then((data) => Promise.all(data.map((id:number) => getMovieById(id))))
+    getUser(username)
+      .then((data) => Promise.all(data.fourFavs.map((id:number) => getMovieById(id))))
       .then(data => {
         while (data.length < 4) {
           data.push(null)
@@ -184,7 +135,15 @@ const Favs = ({user}:propTypes) => {
         </div>
         {isEdit && isValidated &&
         <div className='save-button-container'>
-          <Button onClick={()=>setIsEdit(false)}>Cancel</Button>
+          <Button 
+            onClick={
+              ()=> {
+                setEditFavs([...favs])
+                setIsEdit(false)
+              }
+              }>
+            Cancel
+          </Button>
           <Button 
             onClick={()=> {
               const newFavs = [...editFavs]

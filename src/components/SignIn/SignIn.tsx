@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom'
+import {signIn} from '../../api'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -34,7 +35,11 @@ const darkTheme = createTheme({
   },
 });
 
-export default function SignInSide() {
+type propTypes = {
+  updateUser: () => void
+}
+
+export default function SignIn({updateUser}: propTypes) {
   const [error, setError] = useState(false)
   
   const navigate = useNavigate()
@@ -42,25 +47,10 @@ export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    fetch('https://four-favs-be.onrender.com/api/v0/signin', {
-      'method': 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(
-        {
-          'username': data.get('username'),
-          'password': data.get('password')
-        }
-      )
-    }).then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error
-        }})
+    signIn(data.get('username'), data.get('password'))
       .then(res => {
         localStorage.setItem("token", res.token);
+        updateUser()
         setError(false)
         navigate(`/${data.get('username')}`)
         })
