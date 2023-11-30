@@ -177,7 +177,11 @@ const Favs = ({user}:propTypes) => {
               id="movies-select"
               options={options}
               getOptionLabel={(option) => {
-                return `${option?.title} (${option?.release_date.slice(0, 4)})`
+                let releaseDate = ''
+                if (option?.release_date) {
+                  releaseDate = `(${option?.release_date.slice(0, 4)})`
+                }
+                return `${option?.title} ${releaseDate}`
               }}
               sx={{
                 width: 300,
