@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Movie } from '../../types'
 import { Autocomplete, TextField, Button, Avatar } from '@mui/material'
+import { MoonLoader } from 'react-spinners'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Modal } from '@mui/joy';
 import { validate } from '../../helpers'
@@ -28,6 +29,7 @@ type propTypes = {
 }
 
 const Favs = ({user}:propTypes) => {
+  const [loading, setLoading] = useState(true)
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
   const [editFavs, setEditFavs] = useState([...favs])
   const [options, setOptions] = useState<Movie[]>([])
@@ -84,7 +86,9 @@ const Favs = ({user}:propTypes) => {
         }
         setFavs(data)
         setEditFavs(data)
+        setLoading(false)
       })
+      .catch(e => console.log(e))
   }, [])
 
   const posters = (!isEdit ? favs : editFavs).map((fav, index) => {
@@ -116,6 +120,18 @@ const Favs = ({user}:propTypes) => {
       </div>
   })
 
+  if (loading) {
+    return (
+      <div className='background'>
+        <div className='moon-loader'>
+          <MoonLoader
+            loading
+            color="#36d7b7"
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className='background'>
