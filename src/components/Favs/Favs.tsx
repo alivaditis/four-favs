@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Movie } from '../../types'
-import { Autocomplete, TextField, Button } from '@mui/material'
+import { Autocomplete, TextField, Button, Avatar } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Modal } from '@mui/joy';
 import { validate } from '../../helpers'
@@ -10,7 +10,8 @@ import close from '../../imgs/close.png'
 import edit from '../../imgs/pen.png'
 import add from '../../imgs/plus.png'
 import nullPoster from '../../imgs/null-poster.png'
-import '../../App.css'
+import userIcon from '../../imgs/user.png'
+import './Favs.css'
 
 const darkTheme = createTheme({
   palette: {
@@ -118,7 +119,7 @@ const Favs = ({user}:propTypes) => {
 
   return (
     <div className='background'>
-      <div className='App'>
+      <div className='app'>
         {isValidated && <button
           onClick={() => {
             localStorage.clear()
@@ -126,45 +127,66 @@ const Favs = ({user}:propTypes) => {
           }}>
           log out
         </button>}
-        <div className='favs-header-container'>
-          <h2 className='favs-header'>FAVORITE FILMS</h2>
-          {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
-        </div>
-        <div className="favs-container">
-          {posters}
-        </div>
-        {isEdit && isValidated &&
-        <div className='save-button-container'>
-          <Button 
-            onClick={
-              ()=> {
-                setEditFavs([...favs])
-                setIsEdit(false)
-              }
-              }>
-            Cancel
-          </Button>
-          <Button 
-            onClick={()=> {
-              const newFavs = [...editFavs]
-              newFavs.sort((a, b) => {
-                if (a === null && b !== null) {
-                  return 1
-                }
-                if (a !== null && b === null) {
-                  return -1
-                }
-                return 0
-              })
-              updateFavs(username, newFavs)
-              setFavs([...newFavs])
-              setEditFavs([...newFavs])
-              setIsEdit(false)
-            }}>
-            Save
-          </Button>
+        {
+        favs[0]?.backdrop_path &&
+        <div className='gradient-container'>
+          <div className='gradient'/>
+          <img className='backdrop' src={`https://image.tmdb.org/t/p/original/${favs[0]?.backdrop_path}`}/>
         </div>
         }
+        <div
+          className='content-container'
+          style={{
+            top: favs[0]?.backdrop_path ? '-60px' : '0'
+          }} 
+        >
+          <div className='avatar-container'>
+            <Avatar
+                src={userIcon}
+                sx={{ width: 54, height: 54 }}
+            />
+            <p className='username'>{username}</p>
+          </div>
+          <div className='favs-header-container'>
+            <h2 className='favs-header'>FAVORITE FILMS</h2>
+            {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
+          </div>
+          <div className="favs-container">
+            {posters}
+          </div>
+          {isEdit && isValidated &&
+          <div className='save-button-container'>
+            <Button 
+              onClick={
+                ()=> {
+                  setEditFavs([...favs])
+                  setIsEdit(false)
+                }
+                }>
+              Cancel
+            </Button>
+            <Button 
+              onClick={()=> {
+                const newFavs = [...editFavs]
+                newFavs.sort((a, b) => {
+                  if (a === null && b !== null) {
+                    return 1
+                  }
+                  if (a !== null && b === null) {
+                    return -1
+                  }
+                  return 0
+                })
+                updateFavs(username, newFavs)
+                setFavs([...newFavs])
+                setEditFavs([...newFavs])
+                setIsEdit(false)
+              }}>
+              Save
+            </Button>
+          </div>
+        }
+        </div>
         <Modal
           open={open}
           onClose={() => setOpen(false)}
