@@ -10,6 +10,7 @@ import close from '../../imgs/close.png'
 import edit from '../../imgs/pen.png'
 import add from '../../imgs/plus.png'
 import nullPoster from '../../imgs/null-poster.png'
+import userIcon from '../../imgs/user.png'
 import './Favs.css'
 
 const darkTheme = createTheme({
@@ -118,7 +119,7 @@ const Favs = ({user}:propTypes) => {
 
   return (
     <div className='background'>
-      <div className='favs'>
+      <div className='app'>
         {isValidated && <button
           onClick={() => {
             localStorage.clear()
@@ -126,13 +127,22 @@ const Favs = ({user}:propTypes) => {
           }}>
           log out
         </button>}
+        {
+        favs[0]?.backdrop_path &&
         <div className='gradient-container'>
           <div className='gradient'/>
           <img className='backdrop' src={`https://image.tmdb.org/t/p/original/${favs[0]?.backdrop_path}`}/>
         </div>
-        <div className='content-container'>
+        }
+        <div
+          className='content-container'
+          style={{
+            top: favs[0]?.backdrop_path ? '-60px' : '0'
+          }} 
+        >
           <div className='avatar-container'>
             <Avatar
+                src={userIcon}
                 sx={{ width: 54, height: 54 }}
             />
             <p className='username'>{username}</p>

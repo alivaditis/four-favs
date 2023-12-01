@@ -12,9 +12,12 @@
 }
 
 .content-container {
-  position: relative;
-  top: -60px;
   padding: 0 16px;
+  position: relative;
+}
+
+.backdrop-active {
+  top: -60px;
 }
 
 .avatar-container {

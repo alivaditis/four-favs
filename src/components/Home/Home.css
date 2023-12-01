@@ -1,0 +1,39 @@
+.popcorn {
+  position: relative;
+  height: 65dvh;
+  background-image: url(../../imgs/popcorn.jpg);
+  background-size: cover;
+  background-position: 25%;
+}
+
+.popcorn-button-container {
+  position: absolute;
+  right: 8%;
+  bottom: 20%;
+  transform: translate(-8%, -20%);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+}
+
+.featured-users-heading {
+  text-align: center;
+  font-size: 32px;
+}
+
+.featured-users-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  height: 35dvh;
+}
+
+.featured-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 18%;
+  text-decoration: none;
+  color: inherit;
+  font-size: large;
+}
