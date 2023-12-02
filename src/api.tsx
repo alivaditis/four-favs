@@ -22,6 +22,23 @@ const signIn = (username: FormDataEntryValue | null, password: FormDataEntryValu
   .then(res => checkOk(res))
 }
 
+const signUp = (username: FormDataEntryValue | null, password: FormDataEntryValue | null) => {
+  return fetch('https://four-favs-be.onrender.com/api/v0/user', {
+    'method': 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(
+      {
+        'username': username,
+        'password': password
+      }
+    )
+  })
+  .then(res => checkOk(res))
+}
+
+
 const getMovieById = (id: number) => {
   const fetchOtions = {
     headers: {
@@ -70,4 +87,4 @@ const putFavs = (username: string | undefined, ids: (number|undefined)[]) => {
   .then(res => checkOk(res))
 }
 
-export { signIn, getMovieById, getUser, getOptions, putFavs }
+export { signIn, signUp, getMovieById, getUser, getOptions, putFavs }

@@ -25,10 +25,12 @@ type propTypes = {
     iat: number
     id: string
     username: string
-  } | undefined
+  } | undefined,
+  updateUser: () => void
 }
 
-const Favs = ({user}:propTypes) => {
+
+const Favs = ({user, updateUser}:propTypes) => {
   const [loading, setLoading] = useState(true)
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
   const [editFavs, setEditFavs] = useState([...favs])
@@ -37,8 +39,9 @@ const Favs = ({user}:propTypes) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
   
-  const navigate = useNavigate()
 
+  const navigate = useNavigate()
+  
   const {username} = useParams()
 
   const isValidated = validate(user?.username, username)
@@ -138,8 +141,9 @@ const Favs = ({user}:propTypes) => {
       <div className='app'>
         {isValidated && <button
           onClick={() => {
-            localStorage.clear()
-            navigate('/sign-in')
+            localStorage.removeItem('token')
+            updateUser()
+            navigate('/')
           }}>
           log out
         </button>}
