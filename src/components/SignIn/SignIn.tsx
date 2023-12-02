@@ -15,13 +15,15 @@ import Grid from '@mui/material/Grid';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import collage from '../../imgs/movie-collage.jpeg'
 import './SignIn.css'
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+      {'Copyright FourFavs © '}
       <Link color="inherit" href="https://four-favs.vercel.app">
         Four Favs
       </Link>{' '}
@@ -37,13 +39,20 @@ const darkTheme = createTheme({
   },
 });
 
+
+
 type propTypes = {
   updateUser: () => void
 }
 
 export default function SignIn({updateUser}: propTypes) {
   const [error, setError] = useState(false)
-  
+  const [showPassword, setShowPassowrd] = useState(false)
+
+  const handleClickShowPassword = () => {
+    setShowPassowrd(!showPassword)
+  }
+
   const navigate = useNavigate()
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,14 +100,14 @@ export default function SignIn({updateUser}: propTypes) {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            {error && <p style={{color: 'red'}}>Invalid username or password. Please try again.</p>}
+            {error && <p style={{color: "red"}}>Invalid username or password. Please try again.</p>}
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="username"
-                label="Username"
+                label="User Name"
                 name="username"
                 autoComplete="username"
                 autoFocus
@@ -109,9 +118,21 @@ export default function SignIn({updateUser}: propTypes) {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
+                InputProps={{ // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
               />
               {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -132,7 +153,7 @@ export default function SignIn({updateUser}: propTypes) {
                   </Link>
                 </Grid> */}
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/sign-up" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
