@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logo from '../../imgs/letterboxd-dots-neg-tight.png'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -17,7 +17,7 @@ import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signUp } from '../../api'
-import { useNavigate } from 'react-router-dom' 
+import { Link as ReactLink, useNavigate } from 'react-router-dom' 
 
 function Copyright(props: any) {
   return (
@@ -39,14 +39,25 @@ const darkTheme = createTheme({
 });
 
 type propTypes = {
+  user: {
+    iat: number
+    id: string
+    username: string
+  } | undefined,
   updateUser: () => void
 }
 
-export default function SignUp({updateUser}: propTypes) {
+export default function SignUp({user, updateUser}: propTypes) {
   const [error, setError] = useState(false)
   const [showPassword, setShowPassowrd] = useState(true)
   
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,7 +89,7 @@ export default function SignUp({updateUser}: propTypes) {
             alignItems: 'center',
           }}
         >
-          <img className='sign-in-logo' src={logo}/>
+          <img className='sign-in-logo' src={logo} onClick={() => navigate('/')}/>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>

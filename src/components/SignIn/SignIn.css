@@ -2,3 +2,7 @@
   width: 50%;
   margin-bottom: 1em;
 }
+
+.sign-in-logo:hover {
+  cursor: pointer;
+}

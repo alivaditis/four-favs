@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom'
 import {signIn} from '../../api'
 import logo from '../../imgs/letterboxd-dots-neg-tight.png'
@@ -42,10 +42,15 @@ const darkTheme = createTheme({
 
 
 type propTypes = {
+  user: {
+    iat: number
+    id: string
+    username: string
+  } | undefined,
   updateUser: () => void
 }
 
-export default function SignIn({updateUser}: propTypes) {
+export default function SignIn({user, updateUser}: propTypes) {
   const [error, setError] = useState(false)
   const [showPassword, setShowPassowrd] = useState(false)
 
@@ -54,6 +59,12 @@ export default function SignIn({updateUser}: propTypes) {
   }
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [])
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,7 +107,7 @@ export default function SignIn({updateUser}: propTypes) {
               alignItems: 'center',
             }}
           >
-            <img className='sign-in-logo' src={logo}/>
+            <img className='sign-in-logo' src={logo} onClick={() => navigate('/')}/>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
