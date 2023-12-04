@@ -39,7 +39,6 @@ const Favs = ({user, updateUser}:propTypes) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
   
-
   const navigate = useNavigate()
   
   const {username} = useParams()
@@ -139,14 +138,7 @@ const Favs = ({user, updateUser}:propTypes) => {
   return (
     <div className='background'>
       <div className='app'>
-        {isValidated && <button
-          onClick={() => {
-            localStorage.removeItem('token')
-            updateUser()
-            navigate('/')
-          }}>
-          log out
-        </button>}
+
         {
         favs[0]?.backdrop_path &&
         <div className='gradient-container'>

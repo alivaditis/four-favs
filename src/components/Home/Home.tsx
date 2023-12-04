@@ -1,11 +1,17 @@
-import { useEffect } from 'react'
-import { Button, Avatar } from '@mui/material'
+import { Button } from '@mui/material'
 import {useNavigate, Link} from 'react-router-dom'
 import userIcon from '../../imgs/user.png'
-import popcorn from '../../imgs/popcorn.jpg'
 import './Home.css'
 
-const Home = () => {
+type propTypes = {
+  user: {
+    iat: number
+    id: string
+    username: string
+  } | undefined
+}
+
+const Home = ({user}: propTypes) => {
   const navigate = useNavigate()
 
   return (
@@ -16,9 +22,9 @@ const Home = () => {
             <Button
               variant='contained'
               size='large'
-              onClick={()=>navigate('/sign-in')}
+              onClick={()=>navigate(`/${!user ? "sign-in" : user.username}`)}
             >
-              Sign In
+              {!user ? "sign-in" : user.username}
            </Button>
           </div>
         </div>
