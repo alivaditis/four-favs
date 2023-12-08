@@ -31,27 +31,37 @@ const Menu = ({openNav, user, updateUser}: propTypes) => {
                     {user.username}
                   </li>
               </Link>
+              <Link to='/users' onClick={openNav}>
+                  <li>
+                    users
+                  </li>
+              </Link>
               <Link to='/'>
                 <li onClick={() => {
                   openNav()
                   signOut()
                 }}
                 >
-                  Sign Out
+                  sign out
                 </li>
               </Link>
             </>
           }
           {!user &&
             <>
+              <Link to='/users' onClick={openNav}>
+                  <li>
+                    users
+                  </li>
+              </Link>              
               <Link to='/sign-in' onClick={openNav}>
                   <li>
-                    Sign In
+                    sign in
                   </li>
               </Link>
               <Link to='/sign-up' onClick={openNav}>
                   <li>
-                    Sign Up
+                    sign up
                   </li>
               </Link>
             </>

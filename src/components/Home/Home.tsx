@@ -35,7 +35,7 @@ const Home = ({user}: propTypes) => {
                 <img src={userIcon}/>
                 <p>demo1</p>
               </Link>
-              <Link to='/Grace' className='featured-user'>
+              <Link to='/demo2' className='featured-user'>
                 <img src={userIcon}/>
                 <p>demo2</p>
               </Link>
