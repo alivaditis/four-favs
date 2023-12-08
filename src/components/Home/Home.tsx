@@ -31,22 +31,22 @@ const Home = ({user}: propTypes) => {
         <div>
           <h2 className='featured-users-heading'>Featured Users</h2>
           <div className='featured-users-container'>
-              <Link to='/demo1' className='featured-user'>
-                <img src={userIcon}/>
-                <p>demo1</p>
-              </Link>
-              <Link to='/demo2' className='featured-user'>
-                <img src={userIcon}/>
-                <p>demo2</p>
-              </Link>
-              <Link to='/demo3' className='featured-user'>
-                <img src={userIcon}/>
-                <p>demo3</p>
-              </Link>
-              <Link to='/demo4' className='featured-user'>
-                <img src={userIcon}/>
-                <p>demo4</p>
-              </Link>
+            <Link to='/demo1' className='featured-user'>
+              <img src={userIcon}/>
+              <p>demo1</p>
+            </Link>
+            <Link to='/demo2' className='featured-user'>
+              <img src={userIcon}/>
+              <p>demo2</p>
+            </Link>
+            <Link to='/demo3' className='featured-user'>
+              <img src={userIcon}/>
+              <p>demo3</p>
+            </Link>
+            <Link to='/demo4' className='featured-user'>
+              <img src={userIcon}/>
+              <p>demo4</p>
+            </Link>
           </div>
         </div>
       </div>
