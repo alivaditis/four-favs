@@ -59,6 +59,12 @@ const getUser = (username:string|undefined) => {
     })
 }
 
+const getUsers = () => {
+  return fetch(`https://four-favs-be.onrender.com/api/v0/users`)
+    .then(res => checkOk(res))
+    .then(res => res.users)
+}
+
 const getOptions = (query: string) => {
   const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
       
@@ -87,4 +93,4 @@ const putFavs = (username: string | undefined, ids: (number|undefined)[]) => {
   .then(res => checkOk(res))
 }
 
-export { signIn, signUp, getMovieById, getUser, getOptions, putFavs }
+export { signIn, signUp, getMovieById, getUser, getUsers, getOptions, putFavs }

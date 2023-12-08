@@ -1,0 +1,26 @@
+.users-list {
+  list-style-type: none;
+  padding: 1rem;
+}
+
+.users-list li {
+  margin-top: .6rem;
+  width: fit-content;
+}
+
+.user-in-list {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.user-in-list-pic {
+  width: 52px;
+  height: auto;
+  margin-right: 1rem;
+}
+
+.username-in-list {
+  color: var(--text-primary-color);
+  font-size: 24px;
+}

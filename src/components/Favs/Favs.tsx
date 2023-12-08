@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Movie } from '../../types'
 import { Autocomplete, TextField, Button, Avatar } from '@mui/material'
 import { MoonLoader } from 'react-spinners'
@@ -29,18 +29,16 @@ type propTypes = {
   updateUser: () => void
 }
 
-
 const Favs = ({user, updateUser}:propTypes) => {
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
   const [favs, setFavs] = useState<(Movie)[]>([null, null, null, null])
   const [editFavs, setEditFavs] = useState([...favs])
   const [options, setOptions] = useState<Movie[]>([])
   const [isEdit, setIsEdit] = useState(false)
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(0)
-  
-  const navigate = useNavigate()
-  
+    
   const {username} = useParams()
 
   const isValidated = validate(user?.username, username)
@@ -90,7 +88,10 @@ const Favs = ({user, updateUser}:propTypes) => {
         setEditFavs(data)
         setLoading(false)
       })
-      .catch(e => console.log(e))
+      .catch(e => {
+        setError(true)
+        setLoading(false)
+      })
   }, [])
 
   const posters = (!isEdit ? favs : editFavs).map((fav, index) => {
@@ -98,6 +99,7 @@ const Favs = ({user, updateUser}:propTypes) => {
         {isEdit && fav &&
         <img
           className='remove-poster-button'
+          alt='cross'
           src={close}
           onClick={() => {
             const newFavs = [...editFavs]
@@ -109,6 +111,7 @@ const Favs = ({user, updateUser}:propTypes) => {
         <div className='poster-editing-icon'>
           <img
             src={fav ? edit : add}
+            alt='edit-icon'
             onClick={() => openModal(index)}
             />
         </div>}
@@ -117,6 +120,7 @@ const Favs = ({user, updateUser}:propTypes) => {
             onClick={() => handlePosterClick(fav, index)}
             className='poster'
             src={fav ? `https://image.tmdb.org/t/p/original/${fav.poster_path}` : nullPoster}
+            alt={fav?.title}
           />
         </div>
       </div>
@@ -135,6 +139,17 @@ const Favs = ({user, updateUser}:propTypes) => {
     )
   }
 
+  if (error) {
+    return (
+      <div className='background'>
+        <div className='app'>
+          <p className='error-text'>{`Could not find user: ${username}`}</p>
+        </div>
+      </div>
+    )
+  }
+
+  
   return (
     <div className='background'>
       <div className='app'>
@@ -143,7 +158,7 @@ const Favs = ({user, updateUser}:propTypes) => {
         favs[0]?.backdrop_path &&
         <div className='gradient-container'>
           <div className='gradient'/>
-          <img className='backdrop' src={`https://image.tmdb.org/t/p/original/${favs[0]?.backdrop_path}`}/>
+          <img className='backdrop' src={`https://image.tmdb.org/t/p/original/${favs[0]?.backdrop_path}`} alt={`still from ${favs[0]?.title}`}/>
         </div>
         }
         <div
@@ -161,7 +176,7 @@ const Favs = ({user, updateUser}:propTypes) => {
           </div>
           <div className='favs-header-container'>
             <h2 className='favs-header'>FAVORITE FILMS</h2>
-            {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit}/>}
+            {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit} alt='edit-icon'/>}
           </div>
           <div className="favs-container">
             {posters}

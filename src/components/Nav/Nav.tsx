@@ -4,7 +4,6 @@ import Menu from './Menu'
 import './Nav.css'
 import logo from '../../imgs/letterboxd-dots-neg-tight.png'
 import menu from '../../imgs/menu.png'
-import { PropTypes } from '@mui/material'
 
 type propTypes = {
   user: {
@@ -25,9 +24,9 @@ const Nav = ({user, updateUser}: propTypes) => {
     <div className='nav-background'>
       <nav className='nav'>
         <Link to='/'>
-          <img className='home-logo' src={logo}/>
+          <img className='home-logo' src={logo} alt='3 circles overlapping'/>
         </Link>
-        <img className='burger' src={menu} onClick={openNav}/>
+        <img className='burger' src={menu} onClick={openNav} alt='hamburger menu icon'/>
       </nav>
       {isOpen && <Menu openNav={openNav} user={user} updateUser={updateUser}/>}
     </div>
