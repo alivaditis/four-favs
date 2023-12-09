@@ -67,6 +67,17 @@
   margin-top: 24px;
   display: flex;
   justify-content: space-between;
+  position: relative;
+}
+
+.be-sure {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+  top: 50%;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .poster-box {

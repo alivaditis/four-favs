@@ -179,6 +179,7 @@ const Favs = ({user, updateUser}:propTypes) => {
             {!isEdit && isValidated && <img className='edit-icon' onClick={() => setIsEdit(true)} src={edit} alt='edit-icon'/>}
           </div>
           <div className="favs-container">
+            {favs.every(fav => !fav) && !isEdit && <p className='be-sure'>Be sure to save some Favs!</p>}
             {posters}
           </div>
           {isEdit && isValidated &&
