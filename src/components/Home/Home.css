@@ -25,7 +25,8 @@
   margin-top: 1rem;
   display: flex;
   justify-content: space-around;
-  height: 35dvh;
+  align-items: center;
+  height: 15dvh;
 }
 
 .featured-user {
@@ -33,6 +34,7 @@
   flex-direction: column;
   align-items: center;
   width: 18%;
+  height: fit-content;
   text-decoration: none;
   color: inherit;
   font-size: large;
