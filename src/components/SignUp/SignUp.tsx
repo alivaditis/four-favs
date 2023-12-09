@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import logo from '../../imgs/letterboxd-dots-neg-tight.png'
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -94,7 +93,7 @@ export default function SignUp({user, updateUser}: propTypes) {
             Sign up
           </Typography>
           {error && <p style={{color: "red"}}>That username already exists</p>}
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               {/* <Grid item xs={12} sm={6}>
                 <TextField
