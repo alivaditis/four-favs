@@ -16,7 +16,16 @@ Recreation of Letterboxd's four favorites feature in react<br>
 
 
 ## Abstract: 
-A web app for users to save and share their top 4 films built with React and TypeScript!  Inspired by Letterboxd's four favortites feature.  Film data from [TMDb](https://www.themoviedb.org/?language=en-US).  Utilizs a [backend](https://github.com/alivaditis/four-favs-be) built with Express and Prisma.  MaterialUI components used for autocomplete, sign-in, and sign-up.
+A web app for users to save and share their top 4 films built with React and TypeScript!  Inspired by Letterboxd's four favortites feature.  Film data from [TMDb](https://www.themoviedb.org/?language=en-US).  Utilizes a [backend](https://github.com/alivaditis/four-favs-be) built with Express and Prisma.  MaterialUI components used for autocomplete, sign-in, and sign-up.
+
+## Learning Goals:
+- Integrate a backend built with express and prisma for users
+- Further improve React fundamentals
+- Further improve TypeScript fundamentals
+- Create a user interface that is easy to use and clearly displays information
+- Write DRY, reusable code that follows SRP and trends toward function purity
+- Make network requests (using fetch API)
+- Create a multi-page UX using Router
 
 ## Installation Instructions 
 - Clone to your local machine using the command: `git clone git@github.com:alivaditis/four-favs.git`.
@@ -25,14 +34,6 @@ A web app for users to save and share their top 4 films built with React and Typ
 - Run the command: `npm start`
 - Once the modules have finished compiling, enter `http://localhost:3000/` into your browser to see the live web page. 
 
-## Learning Goals:
-- Build and integrate a backend with express and prisma for users
-- Further improve TypeScript fundamentals
-- Create a user interface that is easy to use and clearly displays information
-- Write DRY, reusable code that follows SRP and trends toward function purity
-- Make network requests (using fetch API)
-- Further improve React fundamentals
-- Create a multi-page UX using Router
 
 ## Preview of App:
 
