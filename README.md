@@ -17,7 +17,7 @@ Recreation of Letterboxd's four favorites!<br>
 [Four Favs DEPLOYED LINK](https://four-favs.vercel.app/)
 </div>
 
-demo users: demo1-demo6
+demo users: demo1-demo6 <br>
 pw: popcorn
 
 ## Abstract: 
