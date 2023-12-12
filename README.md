@@ -1,6 +1,6 @@
 <div align="center">
 <h1> Four Favs </h1>
-Recreation of Letterboxd's four favorites feature in react<br> 
+Recreation of Letterboxd's four favorites!<br> 
 
 <br>
 <b>Built With:</b>
