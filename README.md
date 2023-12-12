@@ -10,7 +10,10 @@ Recreation of Letterboxd's four favorites!<br>
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=FFF" /> 
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" /> 
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express.js?style=for-the-badge&logo=html5&logoColor=white" />
   
+ <br> 
 [Four Favs DEPLOYED LINK](https://four-favs.vercel.app/)
 </div>
 
