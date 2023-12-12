@@ -17,6 +17,8 @@ Recreation of Letterboxd's four favorites!<br>
 [Four Favs DEPLOYED LINK](https://four-favs.vercel.app/)
 </div>
 
+demo users: demo1-demo6
+pw: popcorn
 
 ## Abstract: 
 A web app for users to save and share their top 4 films built with React and TypeScript!  Inspired by Letterboxd's four favortites feature.  Film data from [TMDb](https://www.themoviedb.org/?language=en-US).  Utilizes a [backend](https://github.com/alivaditis/four-favs-be) built with Express and Prisma.  MaterialUI components used for autocomplete, sign-in, and sign-up.
