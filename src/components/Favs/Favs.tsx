@@ -92,7 +92,7 @@ const Favs = ({user, updateUser}:propTypes) => {
         setError(true)
         setLoading(false)
       })
-  }, [])
+  }, [username])
 
   const posters = (!isEdit ? favs : editFavs).map((fav, index) => {
     return <div key={index} className={`poster-box ${fav && 'set-poster-hover'} ${isEdit && 'hovered-edit-poster'}`}>
